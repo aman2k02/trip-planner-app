@@ -1,0 +1,75 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;   /* 🔥 CENTER FIX */
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 🔥 GRID FIX */
+.top-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* LEFT FORM */
+.form-card {
+  flex: 1;
+  max-width: 350px;
+}
+
+/* RIGHT MAP */
+.map-card {
+  flex: 2;
+  height: 400px;
+}
+
+/* CARD */
+.card, .form-card, .map-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* MAP FIX */
+.map-card .leaflet-container {
+  height: 100% !important;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* INPUT */
+input {
+  padding: 10px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+button {
+  padding: 10px;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+/* IMAGE */
+img {
+  max-width: 100%;
+  height: auto;
+}

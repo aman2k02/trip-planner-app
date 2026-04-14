@@ -17,7 +17,7 @@ def search_location(request):
     url = "https://api.openrouteservice.org/geocode/search"
 
     params = {
-        "api_key": "YOUR_API_KEY",  # 🔥 replace with your actual key
+        "api_key": "YOUR_API_KEY",  
         "text": query,
         "size": 5
     }
@@ -77,29 +77,24 @@ def plan_trip(request):
 
         print("[INFO] Trip plan generated")
 
-        # 🔹 Step 3: Generate Logs
+        # 🔹 Step 3: Generate Logs (BASE64)
         logs = []
 
         for day in plan:
             try:
-                log_path = generate_log_image(day)  # 🔥 returns /media/...
-                if log_path:
-                    logs.append(log_path)
+                log_base64 = generate_log_image(day)  #  returns base64
+                if log_base64:
+                    logs.append(log_base64)
             except Exception as e:
                 print("[ERROR] Log generation failed:", e)
 
-        print("[INFO] Logs generated:", logs)
+        print("[INFO] Logs generated (base64)")
 
-        # 🔥 Step 4: Convert to FULL URL (IMPORTANT)
-        base_url = "https://trip-planner-backend.onrender.com"
-
-        full_logs = [base_url + log for log in logs]
-
-        # 🔹 Final Response
+        # 🔹 Final Response (NO URL, DIRECT IMAGE)
         return Response({
             "route": route,
             "plan": plan,
-            "logs": full_logs
+            "logs": logs
         })
 
     except Exception as e:

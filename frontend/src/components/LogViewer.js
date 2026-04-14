@@ -11,7 +11,7 @@ const LogViewer = ({ logs }) => {
             <p><strong>Day {i + 1}</strong></p>
 
             <img
-              src={`${log}?t=${Date.now()}`}   
+              src={log}   // 🔥 FINAL FIX
               alt="log"
               style={{
                 maxWidth: "400px",

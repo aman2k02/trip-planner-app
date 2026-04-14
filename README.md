@@ -14,7 +14,9 @@ A production-ready full-stack web application that generates optimized truck tri
 
 ## 🎥 Demo Video
 
-* 📹 Loom Video: *(Add your Loom link here)*
+* 📹 Loom Video: 
+
+  https://www.loom.com/share/7c79c836d2de43a48ecca57cab544553
 
 ---
 

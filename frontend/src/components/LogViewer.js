@@ -11,10 +11,10 @@ const LogViewer = ({ logs }) => {
             <p><strong>Day {i + 1}</strong></p>
 
             <img
-              src={`http://127.0.0.1:8000${log}`}
+              src={`${log}?t=${Date.now()}`}   
               alt="log"
               style={{
-                maxWidth: "400px",   // 🔥 FIXED SIZE
+                maxWidth: "400px",
                 width: "100%",
                 borderRadius: "8px",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.2)"

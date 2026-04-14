@@ -6,6 +6,7 @@ from api.route_service import get_route_data
 from logs.generator import generate_log_image
 
 
+# 🔍 Location Search API
 @api_view(['GET'])
 def search_location(request):
     query = request.GET.get("q")
@@ -16,7 +17,7 @@ def search_location(request):
     url = "https://api.openrouteservice.org/geocode/search"
 
     params = {
-        "api_key": "YOUR_API_KEY",   # same key
+        "api_key": "YOUR_API_KEY",  # 🔥 replace with your actual key
         "text": query,
         "size": 5
     }
@@ -35,9 +36,11 @@ def search_location(request):
         return Response(results)
 
     except Exception as e:
-        print("Search Error:", e)
+        print("[ERROR] Search API failed:", e)
         return Response([])
 
+
+# 🚛 Main Trip Planner API
 @api_view(['POST'])
 def plan_trip(request):
     try:
@@ -48,7 +51,7 @@ def plan_trip(request):
         dropoff = data.get("dropoff_location")
         cycle_used = float(data.get("cycle_used", 0))
 
-        # 🔴 Basic validation
+        # 🔴 Validation
         if not current or not pickup or not dropoff:
             return Response({
                 "error": "All locations are required"
@@ -56,7 +59,7 @@ def plan_trip(request):
 
         print("[INFO] Starting trip planning...")
 
-        # 🔹 Step 1: Get route
+        # 🔹 Step 1: Get Route
         route = get_route_data(current, pickup, dropoff)
 
         distance = route.get("distance_km", 0)
@@ -64,13 +67,12 @@ def plan_trip(request):
 
         print("[INFO] Route received:", route)
 
-        # 🔴 अगर route fail हो गया
         if distance == 0 or duration == 0:
             return Response({
                 "error": "Failed to fetch route. Check locations."
             }, status=400)
 
-        # 🔹 Step 2: HOS Logic
+        # 🔹 Step 2: Generate Trip Plan
         plan = generate_trip_plan(duration, distance, cycle_used)
 
         print("[INFO] Trip plan generated")
@@ -79,21 +81,25 @@ def plan_trip(request):
         logs = []
 
         for day in plan:
-            file_path = f"media/log_day_{day['day']}.png"
-
             try:
-                generate_log_image(day, file_path)
-                logs.append(f"/{file_path}")
+                log_path = generate_log_image(day)  # 🔥 returns /media/...
+                if log_path:
+                    logs.append(log_path)
             except Exception as e:
                 print("[ERROR] Log generation failed:", e)
 
         print("[INFO] Logs generated:", logs)
 
-        # 🔹 Final response
+        # 🔥 Step 4: Convert to FULL URL (IMPORTANT)
+        base_url = "https://trip-planner-backend.onrender.com"
+
+        full_logs = [base_url + log for log in logs]
+
+        # 🔹 Final Response
         return Response({
             "route": route,
             "plan": plan,
-            "logs": logs
+            "logs": full_logs
         })
 
     except Exception as e:
